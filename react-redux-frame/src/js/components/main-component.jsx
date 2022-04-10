@@ -34,9 +34,9 @@ export default function MainComponent() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     axios.post(
-        "http://localhost/",
+        "http://localhost/api/login",
         {
-            userId: data.get('email'),
+            id: data.get('email'),
             password: data.get('password')
         }
     ).then((response) =>{
