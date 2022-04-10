@@ -6,3 +6,9 @@
 
 ## CRLF自動変換削除
 git config --global core.autocrlf false
+
+## ユーザ名の登録
+git config --global user.name "ユーザー名"
+
+## メールアドレスの登録
+git config --global user.email メールアドレス
