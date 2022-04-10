@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.application.domain.model.LoginRequestParam;
 import com.example.demo.application.domain.model.UserPostRequestParam;
 import com.example.demo.application.domain.model.UserPutRequestParam;
 import com.example.demo.application.domain.model.UserResponseParam;
@@ -50,4 +51,8 @@ public class UserController {
 		service.delete(id);
 	}
 	
+	@PostMapping("/api/login")
+	public String Login(@RequestBody LoginRequestParam param) {
+		return "OK";
+	}
 }
