@@ -1,0 +1,26 @@
+{
+    "log_rotation":
+    [
+        {
+            "target": {
+                "dir": "C:\\work\\06.logs\\01.teraterm_epic",
+                "file": "teraterm*"
+            },
+            "compression": {
+                "file_title": "_teraterm",
+                "method": "zip",
+                "dir": "",
+                "search_term": {
+                    "date_section": "m",
+                    "number_of": 1
+                }
+            },
+            "delete": {
+                "search_term": {
+                    "date_section": "",
+                    "number_of": 0
+                }
+            }
+        }
+    ]
+}
