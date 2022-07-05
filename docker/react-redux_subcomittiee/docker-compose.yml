@@ -1,0 +1,11 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "49152:80"
+    volumes:
+      - ../../nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../../react-redux-ts-frame-demo:/usr/share/nginx/html
+# docker nginxはdefault.confを優先的に見る為、default.confを更新する
