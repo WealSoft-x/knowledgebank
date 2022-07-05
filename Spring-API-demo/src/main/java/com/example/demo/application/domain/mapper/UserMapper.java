@@ -14,4 +14,6 @@ public interface UserMapper {
 	void updateUser(UserPutRequestParam param);
 	void insertUser(UserPostRequestParam param);
 	void deleteUser(int id);
+	User findByID(int id);
+	
 }

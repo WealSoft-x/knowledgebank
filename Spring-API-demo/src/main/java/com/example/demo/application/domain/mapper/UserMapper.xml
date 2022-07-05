@@ -4,6 +4,15 @@
    <select id="findAll" resultType="com.example.demo.application.domain.model.User">
       select * from M_USERS;
    </select>
+   <select id="findByID" resultType="com.example.demo.application.domain.model.User">
+      SELECT
+      	*
+      FROM
+      	M_USERS
+      WHERE
+      	ID_USER = #{id}
+      ;
+   </select> 
    <update id="updateUser">
       UPDATE M_USERS
       SET
@@ -28,5 +37,5 @@
      M_USERS
    WHERE
      ID_USER = #{id}
-   </delete>
+   </delete>   
 </mapper>
