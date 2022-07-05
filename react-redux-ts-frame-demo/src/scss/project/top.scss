@@ -1,0 +1,19 @@
+.p-header {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.p-body {
+    &__shimei {
+        position: relative;
+        width: 100%;
+        display: block;
+        text-align: center;
+
+        & * {
+            margin-right: 30%;
+        }
+    }
+}
