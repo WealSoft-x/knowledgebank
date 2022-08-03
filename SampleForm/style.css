@@ -1,0 +1,23 @@
+.header {
+    width: 100%;
+    height: 30px;
+    background-color: cornflowerblue;
+}
+
+.contact {
+    text-align: center;
+}
+
+.contact > * {
+    margin: 40px;
+}
+
+.contact__title {
+    margin-top: 70px;
+    margin-bottom: 60px;
+}
+
+.input-select {
+    width: 300px;
+    margin: 0 auto;
+}

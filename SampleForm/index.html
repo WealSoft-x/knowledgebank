@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>お問合せ</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+            defer="defer">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"
+            defer="defer"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous" defer="defer"></script>
+        <link href="style.css" rel="stylesheet" type="text/css">
+        <script src="main.js" defer="defer"></script>
+    </head>
+    <body>
+        <div class="header"></div>
+        <div class="contact">
+            <h1 class="contact__title">お問合せフォーム</h1>
+            <p class="contact__sentence">受付後、メールやWeb会議にてコミュニケーションを取れればと思います。</p>
+            <div class="contact__input" id="contact__input">
+                <input type="text" class="form-control input-select" id="input-name"
+                    style="margin-top: 30px; margin-bottom: 30px;" placeholder="お名前 *">
+                <div class="contact__input__seibetu" style="margin-bottom: 30px;">
+                    <input type="radio" class="form-check-input radio" value="男" checked><label for="man">男</label>
+                    <input type="radio" class="form-check-input radio" value="女"><label for="female">女</label>
+                </div>
+                <select class="form-select center-block input-select" id="input-select" style="margin-bottom: 30px;">
+                    <option selected>Open this select menu</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                </select>
+                <input type="checkbox" class="contact__input__agree"><label for="agree">同意</label>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="submit();" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">確認</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex;">
+                            <div>お名前：</div>
+                            <div class="modal-name"></div>
+                        </div>
+                        <div style="display: flex;">
+                            <div>性別：</div>
+                            <div class="modal-seibetu"></div>
+                        </div>
+                        <div style="display: flex;">
+                            <div>セレクト：</div>
+                            <div class="modal-select"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                        <button type="button" onclick="next();" class="btn btn-primary">確定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
