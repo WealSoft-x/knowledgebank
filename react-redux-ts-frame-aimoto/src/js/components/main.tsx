@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import LeftMenu from './left-menu';
 import Login from './login';
+import Form from './form';
 
 export default function MainComponent() {
     return (
@@ -14,7 +15,7 @@ export default function MainComponent() {
             <Typography variant="h6" color="inherit" component="div"/ >
         </Toolbar>
         </AppBar>
-        <Login />
-    </>
+        <Form />
+      </>
     );
 }
