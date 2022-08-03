@@ -1,0 +1,18 @@
+{
+    "include": [
+        "src/**/*"
+    ],
+    "compilerOptions": {
+        "target": "ES2015",
+        "module": "commonJs",  // TSのモジュール出力
+        "lib": ["ES5", "ES6", "DOM"],
+        "baseUrl": "./",
+        "strict": true, // 厳密モード
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "jsx": "react",
+        "noImplicitAny": false,
+        "moduleResolution": "node", // node_modules からライブラリを読み込む
+    },
+}
