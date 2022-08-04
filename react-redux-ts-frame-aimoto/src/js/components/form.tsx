@@ -13,30 +13,34 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useHistory } from 'react-router';
 import { useDispatch } from "react-redux";
 import ReactDOM from 'react-dom';
+import { Select } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 const theme = createTheme();
 
 export default function Comfirm() {
   const dispatch = useDispatch()
   const [form1, setForm1] = useState({value: "", isErr: false, errContents: ""})
-  const [form2, setForm2] = useState({value: "", isErr: false, errContents: ""})
+  const [form2, setForm2] = useState({value: "", chkVal: false, isErr: false, errContents: ""})
+  const [form3, setForm3] = useState({value: "", isErr: false, errContents: ""})
+  const [form4, setForm4] = useState({value: "", isErr: false, errContents: ""})
   const errText = "必須項目を入力して下さい"
   const [isErr, setErr] = useState(false)
+  const [isErrVal, setErrVal] = useState(false)
   const [isSuccess, setSuccess] = useState(false)
   const history = useHistory()
+  const textInput = useRef()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    /*componentDidMount({
-      console.log('didmount');
-      document.getElementById("form1").focus();
-    })*/
+
     event.preventDefault();
     let isErr = false
     if(!form1.value) {
@@ -44,7 +48,7 @@ export default function Comfirm() {
         isErr = true
     }
     if(!form2.value) {
-      setForm2({value: "", isErr: true, errContents: errText})
+      setForm2({value: "", chkVal: false, isErr: true, errContents: errText})
       isErr = true
     }
     if(isErr) {
@@ -59,6 +63,11 @@ export default function Comfirm() {
     history.push('/loggedin')
   };
 
+  useEffect(() => {
+      console.log("useEffect");
+      setTimeout(() => {textInput.current.focus()}, 100)
+  },[]);
+
   const ErrorComponent = () => {
     if (isErr) {
         return (
@@ -69,6 +78,15 @@ export default function Comfirm() {
                 </Alert>
             </Snackbar>
         )
+    } else if (isErrVal) {
+      return (
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true} autoHideDuration={3000} onClose={() => setErrVal(false)} >
+            <Alert severity="error" onClose={() => setErrVal(false)}>
+                <AlertTitle>Error</AlertTitle>
+                {errText}
+            </Alert>
+        </Snackbar>
+    )       
     } else {
         return <></>
     }
@@ -94,8 +112,8 @@ export default function Comfirm() {
     const perceVal = parseInt(form2.value);
     if ( isNaN(perceVal) ) {
       const errText = "数値で入力してください"
-      setForm2({value: form2.value, isErr: true, errContents: errText})
-      setErr(true)
+      setForm2({value: form2.value, chkVal: true, isErr: false, errContents: errText})
+      setErrVal(true)
       console.log('バリデーションチェック問題あり：%s', errText)
       return
     } else {
@@ -136,6 +154,7 @@ export default function Comfirm() {
               helperText={form1.errContents}
               onChange={(e) => setForm1({value: e.target.value, isErr: false, errContents: ""})}
               value={form1.value}
+              inputRef={textInput}
             />
             <Typography component="h2" variant="h6">
               質問2：電話番号
@@ -150,7 +169,7 @@ export default function Comfirm() {
               error={form2.isErr}
               autoComplete="form2"
               helperText={form2.errContents}
-              onChange={(e) => setForm2({value: e.target.value, isErr: false, errContents: ""})}
+              onChange={(e) => setForm2({value: e.target.value, chkVal: false, isErr: false, errContents: ""})}
               value={form2.value}
               onBlur={checkValid}
             />
@@ -162,11 +181,30 @@ export default function Comfirm() {
                 aria-labelledby="radio-buttons-group-label"
                 defaultValue="other"
                 name="radio-buttons-group"
+                onChange={(e) => setForm3({value: e.target.value, isErr: false, errContents: ""})}
+                value={form3.value}
               >
                 <FormControlLabel value="female" control={<Radio />} label="女性" />
                 <FormControlLabel value="male" control={<Radio />} label="男性" />
                 <FormControlLabel value="other" control={<Radio />} label="その他" />
               </RadioGroup>
+            </FormControl>
+            <Typography component="h2" variant="h6">
+              質問4：職業
+            </Typography>
+            <FormControl fullWidth>
+              <InputLabel id="select-job-label" />
+              <Select
+                labelId="select-job-label"
+                defaultValue="other"
+                name="selects-group"
+                onChange={(e) => setForm4({value: e.target.value, isErr: false, errContents: ""})}
+                value={form4.value}
+              >
+                <MenuItem value={"businessmen"}>会社員</MenuItem>
+                <MenuItem value={"independent"}>自営業</MenuItem>
+                <MenuItem value={"other"}>その他</MenuItem>
+              </Select>
             </FormControl>
             <Button
               type="submit"
