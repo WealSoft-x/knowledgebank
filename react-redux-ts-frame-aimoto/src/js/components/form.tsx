@@ -33,39 +33,53 @@ export default function Comfirm() {
   const [form3, setForm3] = useState({value: "", isErr: false, errContents: ""})
   const [form4, setForm4] = useState({value: "", isErr: false, errContents: ""})
   const errText = "必須項目を入力して下さい"
+  const valErrText = "数値で入力してください"
   const [isErr, setErr] = useState(false)
   const [isErrVal, setErrVal] = useState(false)
-  const [isSuccess, setSuccess] = useState(false)
   const history = useHistory()
-  const textInput = useRef()
+  const textInput = useRef<HTMLDivElement>(null!)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
     let isErr = false
+    let isValErr = false
     if(!form1.value) {
-        setForm1({value: "", isErr: true, errContents: errText})
-        isErr = true
+      setForm1({value: "", isErr: true, errContents: errText})
+      isErr = true
     }
     if(!form2.value) {
       setForm2({value: "", chkVal: false, isErr: true, errContents: errText})
       isErr = true
     }
-    if(isErr) {
-        setErr(true)
-        return
+    if(isNaN(parseInt(form2.value)) ) {
+      setForm2({value: form2.value, chkVal: true, isErr: true, errContents: valErrText})
+      isValErr = true
     }
-    setSuccess(true)
+    if(isErr) {
+      console.log("必須項目未入力エラー");
+      setErr(true)
+      return
+    } else if(isValErr) {
+      console.log("バリデーションエラー")
+      setErrVal(true)
+      return
+    }
     dispatch({
-        type: 'SET_FORM1',
-        value: {form1: form1.value},
+        type: 'SET_ENQUET',
+        value: {
+          name: form1.value,
+          telNumber: form2.value,
+          gender: form3.value,
+          job: form4.value,
+        },
     })
-    history.push('/loggedin')
+    history.push('/comfirm')
   };
 
   useEffect(() => {
       console.log("useEffect");
-      setTimeout(() => {textInput.current.focus()}, 100)
+      textInput.current.focus();
   },[]);
 
   const ErrorComponent = () => {
@@ -82,26 +96,11 @@ export default function Comfirm() {
       return (
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true} autoHideDuration={3000} onClose={() => setErrVal(false)} >
             <Alert severity="error" onClose={() => setErrVal(false)}>
-                <AlertTitle>Error</AlertTitle>
-                {errText}
+                <AlertTitle>Validation Error</AlertTitle>
+                {valErrText}
             </Alert>
         </Snackbar>
-    )       
-    } else {
-        return <></>
-    }
-  }
-
-  const SuccessComponent = () => {
-    if (isSuccess) {
-        return (
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true} autoHideDuration={3000} onClose={() => setSuccess(false)} >
-                <Alert severity="success" onClose={() => setSuccess(false)}>
-                    <AlertTitle>Success</AlertTitle>
-                    入力完了
-                </Alert>
-            </Snackbar>
-        )
+      )
     } else {
         return <></>
     }
@@ -109,13 +108,12 @@ export default function Comfirm() {
 
   const checkValid = (e: React.FocusEvent<HTMLInputElement>) => {
     console.log('blur処理入りました。入力データ：%s', form2.value);
-    const perceVal = parseInt(form2.value);
-    if ( isNaN(perceVal) ) {
-      const errText = "数値で入力してください"
-      setForm2({value: form2.value, chkVal: true, isErr: false, errContents: errText})
+    const parceVal = parseInt(form2.value);
+    if ( isNaN(parceVal) ) {
+      console.log('バリデーションチェック問題あり');
+      setForm2({value: form2.value, chkVal: true, isErr: true, errContents: valErrText})
       setErrVal(true)
-      console.log('バリデーションチェック問題あり：%s', errText)
-      return
+      return 
     } else {
       console.log('バリデーションチェック問題なし');
     }
@@ -218,7 +216,6 @@ export default function Comfirm() {
         </Box>
       </Container>
       <ErrorComponent />
-      <SuccessComponent />
     </ThemeProvider>
   );
 }

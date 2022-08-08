@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import LeftMenu from './left-menu';
-import Login from './login';
 import Form from './form';
 
 export default function MainComponent() {
