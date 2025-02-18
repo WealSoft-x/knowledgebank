@@ -1,0 +1,76 @@
+/*
+これは、Amazon Kindle Unlimitedで読める「Linuxで動かしながら学ぶTCP/IPネットワーク入門」
+のハンズオンで使ったコマンドの一部を利便性のために載せています。
+よければ使ってください。
+*/
+
+cd work/docker/TCP_IP/Ubuntu
+
+apt-get -y install \
+bash \
+coreutils \
+grep \
+iproute2 \
+iputils-ping \
+traceroute \
+tcpdump \
+bind9-dnsutils \
+dnsmasq-base \
+netcat-openbsd \
+python3 \
+curl \
+wget \
+iptables \
+procps \
+isc-dhcp-client
+
+ip netns add ns1
+ip netns add router
+ip netns add ns2
+
+ip link add ns1-veth0 type veth peer name gw-veth0
+ip link add ns2-veth0 type veth peer name gw-veth1
+
+ip link set ns1-veth0 netns ns1
+ip link set gw-veth0 netns router
+ip link set gw-veth1 netns router
+ip link set ns2-veth0 netns ns2
+
+ip netns exec ns1 ip link set ns1-veth0 up
+ip netns exec router ip link set gw-veth0 up
+ip netns exec router ip link set gw-veth1 up
+ip netns exec ns2 ip link set ns2-veth0 up
+
+ip netns exec ns1 ip address add 192.0.2.1/24 dev ns1-veth0
+ip netns exec router ip address add 192.0.2.254/24 dev gw-veth0
+ip netns exec router ip address add 198.51.100.254/24 dev gw-veth1
+ip netns exec ns2 ip address add 198.51.100.1/24 dev ns2-veth0
+
+
+tail -f /dev/null は、/dev/null という特別なデバイスファイルを監視するコマンドです。
+
+/dev/null は、Unix系のシステムで「捨て場」として使われる仮想的なファイルです。ここに書き込んだデータは全て消え、何も保存されません。
+tail コマンドはファイルの末尾を表示するコマンドです。-f オプションは、ファイルの末尾が更新されるたびにその内容をリアルタイムで表示するオプションです。
+したがって、tail -f /dev/null を実行すると、/dev/null が何も出力しないことから、永遠に何も表示されず、コマンドが終了することはありません。このコマンドは、コンテナがバックグラウンドで動作し続けるために使われることがあります。
+
+簡単に言うと、コンテナがすぐに終了しないようにするための「待機コマンド」です。
+
+ip netns add ns1
+ip netns add ns2
+ip netns add router1
+ip netns add router2
+ip link add ns1-veth0 type veth peer name gw1-veth0
+ip link add gw1-veth1 type veth peer name gw2-veth0
+ip link add gw2-veth1 type veth peer name ns2-veth0
+ip link set ns1-veth0 netns ns1
+ip link set ns2-veth0 netns ns2
+ip link set gw1-veth0 netns router1
+ip link set gw1-veth1 netns router1
+ip link set gw2-veth0 netns router2
+ip link set gw2-veth1 netns router2
+ip netns exec ns1 ip link set ns1-veth0 up
+ip netns exec ns2 ip link set ns2-veth0 up
+ip netns exec router1 ip link set gw1-veth0 up
+ip netns exec router1 ip link set gw1-veth1 up
+ip netns exec router2 ip link set gw2-veth0 up
+ip netns exec router2 ip link set gw2-veth1 up

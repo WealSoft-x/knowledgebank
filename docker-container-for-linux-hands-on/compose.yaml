@@ -1,0 +1,12 @@
+services:
+  ubuntu:
+    build: .
+    image: ubuntu:22.04
+    privileged: true  # ★特権モードを有効化
+    stdin_open: true
+    tty: true
+    volumes:
+      - ubuntu_data:/data  # /data ディレクトリを永続化
+    entrypoint: ["/entrypoint.sh"]  # 起動時にマウントを設定
+volumes:
+  ubuntu_data:
